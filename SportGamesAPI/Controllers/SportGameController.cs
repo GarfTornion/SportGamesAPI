@@ -15,32 +15,28 @@ namespace SportGamesAPI.Controllers
             _sportGameRepository = sportGameRepository;
         }
 
-        [HttpGet]
-        [Route("api/[controller]")]
+        [HttpGet("GetSportGames")]
         public async Task<ActionResult<List<SportGame>>> GetSportGames()
         {
             var result = await _sportGameRepository.GetSportGames();
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("api/[controller]/{id}")]
+        [HttpGet("GetSportGame/{id}")]
         public async Task<ActionResult<SportGame>> GetSportGame(int id)
         {
             var result = await _sportGameRepository.GetSportGame(id);
             return Ok(result);
         }
 
-        [HttpPost]
-        [Route("api/[controller]")]
+        [HttpPost("CreateSportGame")]
         public async Task<ActionResult<SportGame>> CreateSportGame(SportGame sportGame)
         {
             var result = await _sportGameRepository.CreateSportGame(sportGame);
             return Ok(result);
         }
 
-        [HttpPut]
-        [Route("api/[controller]")]
+        [HttpPut("UpdateSportGame")]
         public async Task<ActionResult<SportGame>> UpdateSportGame(SportGame sportGame)
         {
             var result = await _sportGameRepository.UpdateSportGame(sportGame);
