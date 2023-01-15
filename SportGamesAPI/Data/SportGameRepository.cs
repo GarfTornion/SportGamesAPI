@@ -33,7 +33,8 @@ namespace SportGamesAPI.Data
         
         public async Task<List<SportGame>> GetSportGames()
         {
-            var result = await _context.SportGames.ToListAsync();
+            //get all games, latest first
+            var result = await _context.SportGames.OrderByDescending(x => x.Id).ToListAsync();
             return result;
 
         }
