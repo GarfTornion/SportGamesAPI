@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SportGameDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SportGameDb"));
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:SportGameDb"]);
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<ISportGameRepository, SportGameRepository>();
@@ -34,14 +34,13 @@ builder.Services.AddSignalR().AddNewtonsoftJsonProtocol(options =>
     options.PayloadSerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
+
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
