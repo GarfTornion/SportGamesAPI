@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'SportGamesAPI'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC7C306EB44447E1AD17C03DA21FA645 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2D252AA3BC694A17A9B8418694F9C87A }}
           package: .
