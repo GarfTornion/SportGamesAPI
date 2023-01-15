@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CorsPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:4200")
+        builder.WithOrigins(new string[] { "http://localhost:4200", "https://sportgamesclient.azurewebsites.net/"})
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
