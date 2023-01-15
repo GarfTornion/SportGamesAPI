@@ -4,7 +4,7 @@ A simple ASP.NET app that creates an API-interface to manage the scoring of spor
 
 The repository includes a Client app as a submodule. A separate repo for the client can be found [here](https://github.com/GarfTornion/SportGamesWebUI).
 
-A live demo can be found [here](https://sportgamesapi.azurewebsites.net/) along with API-usage documentation.
+A live demo can be found [here](https://sportgamesapi.azurewebsites.net/swagger/index.html) along with API-usage documentation.
 
 ## Setup
 
