@@ -2,6 +2,7 @@ global using SportGamesAPI.Models;
 global using Microsoft.EntityFrameworkCore;
 using SportGamesAPI.Data.Interfaces;
 using SportGamesAPI.Data;
+using SportGamesAPI.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,14 @@ builder.Services.AddCors(options =>
     {
         builder.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
+});
+
+builder.Services.AddSignalR().AddNewtonsoftJsonProtocol(options =>
+{
+    options.PayloadSerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
 var app = builder.Build();
@@ -36,11 +43,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseCors("CorsPolicy");
 
 app.MapControllers();
+app.MapHub<SportGameHub>("/SportGameHub");
 
 app.Run();
