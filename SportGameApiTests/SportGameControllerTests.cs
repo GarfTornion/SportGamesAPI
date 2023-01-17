@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
+using SportGameApiTests;
 using SportGamesAPI.Controllers;
 using SportGamesAPI.Data.Interfaces;
 using SportGamesAPI.Hubs;
@@ -14,18 +15,85 @@ using System.Threading.Tasks;
 
 namespace SportGameApiTests
 {
+    public class FakeHubContext : IHubContext<SportGameHub>
+    {
+
+        IGroupManager IHubContext<SportGameHub>.Groups => throw new NotImplementedException();
+
+        IHubClients IHubContext<SportGameHub>.Clients => new FakeHubClients();
+    }
+
+    public class FakeHubClients : IHubClients
+    {
+        IClientProxy IHubClients<IClientProxy>.All => new FakeClientProxy();
+
+        IClientProxy IHubClients<IClientProxy>.AllExcept(IReadOnlyList<string> excludedConnectionIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.Client(string connectionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.Clients(IReadOnlyList<string> connectionIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.Group(string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.GroupExcept(string groupName, IReadOnlyList<string> excludedConnectionIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.Groups(IReadOnlyList<string> groupNames)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.User(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IClientProxy IHubClients<IClientProxy>.Users(IReadOnlyList<string> userIds)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FakeClientProxy : IClientProxy
+    {
+        public Task SendAsync(string methodName, params object[] args)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task SendCoreAsync(string methodName, object[] args, CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+    }
+
     [TestClass]
     public class SportGameControllerTests
     {
         private Mock<ISportGameRepository> _sportGameRepository;
-        private IHubContext<SportGameHub> _hub;
+        private FakeHubContext _hub;
         private Fixture _fixture;
         private SportGameController _controller;
 
+        
         public SportGameControllerTests()
         {
             _sportGameRepository = new Mock<ISportGameRepository>();
-            //_hub = new IHubContext<SportGameHub>();
+            _hub = new FakeHubContext();
             _fixture = new Fixture();
             _controller = new SportGameController(_hub, _sportGameRepository.Object);
         }
@@ -129,8 +197,6 @@ namespace SportGameApiTests
 
             var sportGames = _fixture.CreateMany<SportGame>(20).ToList();
             _sportGameRepository.Setup(x => x.GetSportGames()).ReturnsAsync(sportGames);
-
-            //_hub.Setup(x => x.SendUpdatedGames(It.IsAny<List<SportGame>>()));
 
             // Act
             var result = await _controller.UpdateSportGame(1, 1, 1);
