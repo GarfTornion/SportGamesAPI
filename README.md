@@ -20,3 +20,7 @@ dotnet user-secrets set ConnectionStrings:SportGameDb "<your-connection-string>"
 ```
 
 Once done, you should be able to run the application. By default the app will run at `https://localhost:7175/`
+
+## Testing
+
+The solution contains a project called `SportGameApiTests`. Open the solution in Visual Studio, and run tests in the project.
